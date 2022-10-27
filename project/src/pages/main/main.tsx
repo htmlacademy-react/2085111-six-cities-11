@@ -1,10 +1,12 @@
 import PlaceCard from '../../components/place-card/place-card';
+import {Hotel} from '../../types/hotel';
 
 type MainProps = {
-  placeCardCount: number;
+  offersCount: number;
+  hotels: Hotel[];
 };
 
-function Main({placeCardCount}: MainProps): JSX.Element {
+function Main({offersCount, hotels}: MainProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -79,7 +81,7 @@ function Main({placeCardCount}: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -96,9 +98,7 @@ function Main({placeCardCount}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {
-                  Array.from({length: placeCardCount}, (_, k) => k).map((value) => <PlaceCard key={value} />)
-                }
+                {hotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} />)}
               </div>
             </section>
             <div className="cities__right-section">

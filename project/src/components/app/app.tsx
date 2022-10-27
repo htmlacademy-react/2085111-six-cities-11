@@ -1,13 +1,15 @@
+import { SettingsType } from '../..';
 import Main from '../../pages/main/main';
 
 type AppScreenProps = {
-  placeCardCount: number;
+  settings: SettingsType;
 }
 
-function App({placeCardCount}: AppScreenProps): JSX.Element {
+function App({settings}: AppScreenProps): JSX.Element {
   return (
     <Main
-      placeCardCount={placeCardCount}
+      offersCount={settings.OffersCount}
+      hotels={settings.Hotels}
     />
   );
 }

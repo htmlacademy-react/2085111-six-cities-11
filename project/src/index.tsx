@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
+import {hotels} from './mocs/hotels';
+import {Hotel} from './types/hotel';
 
-const Settings = {
-  PlaceCardCount: 5,
-} as const;
+const settings = {
+  OffersCount: 312,
+  Hotels: hotels,
+};
+
+export type SettingsType = {
+  OffersCount: number;
+  Hotels: Hotel[];
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -13,7 +21,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      placeCardCount = {Settings.PlaceCardCount}
+      settings = {settings}
     />
   </React.StrictMode>,
 );
