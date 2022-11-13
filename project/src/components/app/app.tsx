@@ -12,13 +12,13 @@ type AppScreenProps = {
   settings: SettingsType;
 }
 
-function App({ settings }: AppScreenProps): JSX.Element {
+function App({settings}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Main offersCount={settings.OffersCount} hotels={settings.Hotels} />}
+          element={<Main settings = {settings} />}
         />
         <Route
           path={AppRoute.Login}
@@ -27,8 +27,8 @@ function App({ settings }: AppScreenProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <Favorites />
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <Favorites hotels={settings.Hotels} />
             </PrivateRoute>
           }
         />

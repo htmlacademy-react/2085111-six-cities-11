@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {hotels} from './mocs/hotels';
+import {hotels} from './mocks/hotels';
 import {Hotel} from './types/hotel';
 
 const settings = {
