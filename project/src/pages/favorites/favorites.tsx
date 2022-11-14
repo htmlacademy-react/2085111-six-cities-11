@@ -1,3 +1,4 @@
+import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import {Hotel} from '../../types/hotel';
 import FavoriteList from '../../components/favorite-list/favorite-list';
@@ -11,6 +12,9 @@ function Favorites({hotels}: FavoritesProps): JSX.Element {
 
   return (
     <div className="page">
+      <Helmet>
+        <title>Favorite Hotels | 6 cities</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

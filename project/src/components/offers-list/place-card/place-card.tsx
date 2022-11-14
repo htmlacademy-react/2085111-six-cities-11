@@ -1,7 +1,7 @@
+import {Link} from 'react-router-dom';
 import {Hotel} from '../../../types/hotel';
 import {capitalizeFirstLetter} from '../../../utils/index';
-import {MAX_RATING} from '../../../utils/const';
-
+import {AppRoute, MAX_RATING} from '../../../utils/const';
 
 type PlaceCardProps = {
   hotel: Hotel;
@@ -9,7 +9,7 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({hotel, onCardHover}: PlaceCardProps): JSX.Element {
-  const {price, type, title, isPremium, isFavorite, rating} = hotel;
+  const {price, type, title, isPremium, isFavorite, rating, id} = hotel;
   const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
   const ratingPersent = (Math.round(rating) / MAX_RATING) * 100;
   const capitalizedType = capitalizeFirstLetter(type);
@@ -46,7 +46,7 @@ function PlaceCard({hotel, onCardHover}: PlaceCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.Room}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{capitalizedType}</p>
       </div>

@@ -1,3 +1,4 @@
+import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import {SettingsType} from '../..';
 import OffersList from '../../components/offers-list/offers-list';
@@ -10,6 +11,9 @@ function Main({settings}: MainProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>Main Page | 6 cities</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
