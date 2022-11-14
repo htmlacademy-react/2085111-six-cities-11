@@ -1,7 +1,7 @@
 import {Hotel} from '../../../types/hotel';
 import {capitalizeFirstLetter} from '../../../utils/index';
+import {MAX_RATING} from '../../../utils/const';
 
-const MAX_RATING = 5;
 
 type PlaceCardProps = {
   hotel: Hotel;

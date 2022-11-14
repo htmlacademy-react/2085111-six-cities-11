@@ -16,7 +16,7 @@ function FavoriteItem({hotelsOfOneCity}: FavoriteItemProps): JSX.Element {
         </div>
       </div>
       <div className="favorites__places">
-        {hotelsOfOneCity.map((hotel: Hotel) => <FavoriteCard key={hotel.id} />)}
+        {hotelsOfOneCity.map((hotel: Hotel) => <FavoriteCard hotel={hotel} key={hotel.id} />)}
       </div>
     </li>
   );
