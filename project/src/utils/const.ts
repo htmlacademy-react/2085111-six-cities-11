@@ -1,3 +1,5 @@
+const MAX_RATING = 5;
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
@@ -10,3 +12,5 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export {MAX_RATING};

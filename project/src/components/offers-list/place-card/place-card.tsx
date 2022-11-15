@@ -1,20 +1,21 @@
-import {Hotel} from '../../types/hotel';
-import {capitalizeFirstLetter} from '../../utils/index';
-
-const MAX_RATING = 5;
+import {Link} from 'react-router-dom';
+import {Hotel} from '../../../types/hotel';
+import {capitalizeFirstLetter} from '../../../utils/index';
+import {AppRoute, MAX_RATING} from '../../../utils/const';
 
 type PlaceCardProps = {
   hotel: Hotel;
+  onCardHover: (isActive: boolean) => void;
 }
 
-function PlaceCard({hotel}: PlaceCardProps): JSX.Element {
-  const {price, type, title, isPremium, isFavorite, rating} = hotel;
+function PlaceCard({hotel, onCardHover}: PlaceCardProps): JSX.Element {
+  const {price, type, title, isPremium, isFavorite, rating, id} = hotel;
   const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
   const ratingPersent = (Math.round(rating) / MAX_RATING) * 100;
   const capitalizedType = capitalizeFirstLetter(type);
 
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card" onMouseEnter={() => onCardHover(true)}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -45,7 +46,7 @@ function PlaceCard({hotel}: PlaceCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.Room}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{capitalizedType}</p>
       </div>
