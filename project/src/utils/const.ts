@@ -13,9 +13,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-// export const CITY = {
-//   title: 'Amsterdam',
-//   lat: 52.370216,
-//   lng: -73.916236,
-//   zoom: 10,
-// };
+export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+
+export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';

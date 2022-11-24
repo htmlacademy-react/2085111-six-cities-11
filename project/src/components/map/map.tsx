@@ -1,29 +1,31 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useRef, useEffect } from 'react';
-import { Hotel } from '../../types/hotel';
+import {useRef, useEffect} from 'react';
+import {Hotel} from '../../types/hotel';
 import useMap from '../../hooks/use-map';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../utils/const';
 
 type MapProps = {
   hotels: Hotel[];
+  selectedOffer?: number;
 }
 
-function Map({ hotels }: MapProps): JSX.Element {
+function Map({hotels, selectedOffer}: MapProps): JSX.Element {
   const city = hotels[0].city;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, { city });
+  const map = useMap(mapRef, {city});
 
   const defaultCustomIcon = leaflet.icon({
-    iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
+    iconUrl: URL_MARKER_DEFAULT,
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });
 
-  // const currentCustomIcon = leaflet.icon({
-  //   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-  //   iconSize: [40, 40],
-  //   iconAnchor: [20, 40],
-  // });
+  const currentCustomIcon = leaflet.icon({
+    iconUrl: URL_MARKER_CURRENT,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
 
   useEffect(() => {
     if (map) {
@@ -32,11 +34,11 @@ function Map({ hotels }: MapProps): JSX.Element {
           .marker([
             hotel.location.latitude,
             hotel.location.longitude,
-          ], {icon: defaultCustomIcon})
+          ], {icon: (hotel.id === selectedOffer) ? currentCustomIcon : defaultCustomIcon})
           .addTo(map);
       });
     }
-  }, [map]);
+  }, [map, selectedOffer]);
 
   return (
     <div

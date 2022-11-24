@@ -1,4 +1,5 @@
 import {Helmet} from 'react-helmet-async';
+import {useState} from 'react';
 import Logo from '../../components/logo/logo';
 import {SettingsType} from '../..';
 import OffersList from '../../components/offers-list/offers-list';
@@ -9,6 +10,11 @@ type MainProps = {
 };
 
 function Main({settings}: MainProps): JSX.Element {
+  const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
+
+  const cardClickHandler = (id: number) => {
+    setSelectedOffer(id);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -82,10 +88,10 @@ function Main({settings}: MainProps): JSX.Element {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <OffersList offersCount={settings.OffersCount} hotels={settings.Hotels} />
+            <OffersList offersCount={settings.OffersCount} hotels={settings.Hotels} cardClickHandler={cardClickHandler} />
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map hotels={settings.Hotels} />
+                <Map hotels={settings.Hotels} selectedOffer={selectedOffer} />
               </section>
             </div>
           </div>

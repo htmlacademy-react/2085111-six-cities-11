@@ -1,14 +1,14 @@
-import {useState} from 'react';
 import PlaceCard from './place-card/place-card';
 import {Hotel} from '../../types/hotel';
 
 type OffersListProps = {
   offersCount: number;
   hotels: Hotel[];
+  cardClickHandler: (id: number) => void;
 };
 
-function OffersList({offersCount, hotels}: OffersListProps): JSX.Element {
-  const [, setActiveOffer] = useState(false);
+function OffersList({offersCount, hotels, cardClickHandler}: OffersListProps): JSX.Element {
+
 
   return (
     <section className="cities__places places">
@@ -30,7 +30,7 @@ function OffersList({offersCount, hotels}: OffersListProps): JSX.Element {
         </ul>
       </form>
       <div className="cities__places-list places__list tabs__content">
-        {hotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} onCardHover={setActiveOffer} />)}
+        {hotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
       </div>
     </section>
   );
