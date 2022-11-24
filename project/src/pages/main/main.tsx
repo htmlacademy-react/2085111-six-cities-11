@@ -2,6 +2,7 @@ import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import {SettingsType} from '../..';
 import OffersList from '../../components/offers-list/offers-list';
+import Map from '../../components/map/map';
 
 type MainProps = {
   settings: SettingsType;
@@ -83,7 +84,9 @@ function Main({settings}: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <OffersList offersCount={settings.OffersCount} hotels={settings.Hotels} />
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map hotels={settings.Hotels} />
+              </section>
             </div>
           </div>
         </div>

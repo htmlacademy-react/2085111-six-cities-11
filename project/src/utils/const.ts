@@ -1,4 +1,4 @@
-const MAX_RATING = 5;
+export const MAX_RATING = 5;
 
 export enum AppRoute {
   Root = '/',
@@ -13,4 +13,9 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export {MAX_RATING};
+// export const CITY = {
+//   title: 'Amsterdam',
+//   lat: 52.370216,
+//   lng: -73.916236,
+//   zoom: 10,
+// };
