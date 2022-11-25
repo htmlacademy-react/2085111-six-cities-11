@@ -3,7 +3,7 @@ import {Hotel} from '../../../types/hotel';
 import {capitalizeFirstLetter} from '../../../utils/index';
 import {AppRoute, MAX_RATING} from '../../../utils/const';
 
-const nonExistentId = -1;
+const NON_EXISTENT_ID = -1;
 
 type PlaceCardProps = {
   hotel: Hotel;
@@ -17,7 +17,7 @@ function PlaceCard({hotel, cardClickHandler}: PlaceCardProps): JSX.Element {
   const capitalizedType = capitalizeFirstLetter(type);
 
   return (
-    <article className="cities__card place-card" onMouseEnter={() => cardClickHandler(id)} onMouseLeave={() => cardClickHandler(nonExistentId)}>
+    <article className="cities__card place-card" onMouseEnter={() => cardClickHandler(id)} onMouseLeave={() => cardClickHandler(NON_EXISTENT_ID)}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
