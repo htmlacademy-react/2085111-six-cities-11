@@ -9,7 +9,7 @@ export type Hotel = {
     name: string;
   };
   description: string;
-  goods: [string];
+  goods: string[];
   host: {
     avatarUrl: string;
     id: number;

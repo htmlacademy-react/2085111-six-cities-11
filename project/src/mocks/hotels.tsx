@@ -13,26 +13,29 @@ export const hotels: Hotel[] = [
     },
     'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     'goods': [
-      'Heating'
+      'Heating',
+      'Kitchen',
+      'Washing machine',
+      'Dishwasher',
     ],
     'host': {
       'avatarUrl': 'img/1.png',
       'id': 1,
       'isPro': true,
-      'name': 'Angelina'
+      'name': 'Alice'
     },
     'id': 1,
     'images': [
       'img/1.png'
     ],
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': true,
     'location': {
       'latitude': 52.3909553943508,
       'longitude': 4.85309666406198,
       'zoom': 8
     },
-    'maxAdults': 4,
+    'maxAdults': 3,
     'previewImage': 'img/1.png',
     'price': 120,
     'rating': 5,
