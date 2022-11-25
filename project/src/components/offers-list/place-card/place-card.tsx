@@ -3,19 +3,21 @@ import {Hotel} from '../../../types/hotel';
 import {capitalizeFirstLetter} from '../../../utils/index';
 import {AppRoute, MAX_RATING} from '../../../utils/const';
 
+const nonExistentId = -1;
+
 type PlaceCardProps = {
   hotel: Hotel;
-  onCardHover: (isActive: boolean) => void;
+  cardClickHandler: (id: number) => void;
 }
 
-function PlaceCard({hotel, onCardHover}: PlaceCardProps): JSX.Element {
+function PlaceCard({hotel, cardClickHandler}: PlaceCardProps): JSX.Element {
   const {price, type, title, isPremium, isFavorite, rating, id} = hotel;
   const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
   const ratingPersent = (Math.round(rating) / MAX_RATING) * 100;
   const capitalizedType = capitalizeFirstLetter(type);
 
   return (
-    <article className="cities__card place-card" onMouseEnter={() => onCardHover(true)}>
+    <article className="cities__card place-card" onMouseEnter={() => cardClickHandler(id)} onMouseLeave={() => cardClickHandler(nonExistentId)}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
