@@ -38,11 +38,18 @@ function Map({hotels, selectedOffer}: MapProps): JSX.Element {
           .addTo(map);
       });
     }
+    return () => {
+      map?.eachLayer((layer) => {
+        if (layer instanceof leaflet.Marker) {
+          layer.remove();
+        }
+      });
+    };
   }, [map, selectedOffer]);
 
   return (
     <div
-      style={{ height: '512px' }}
+      style={{height: '100%'}}
       ref={mapRef}
     />
   );
