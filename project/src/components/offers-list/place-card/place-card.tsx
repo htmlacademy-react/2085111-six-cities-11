@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import {Hotel} from '../../../types/hotel';
-import {capitalizeFirstLetter} from '../../../utils/index';
-import {AppRoute, MAX_RATING} from '../../../utils/const';
+import {capitalizeFirstLetter, сalculateRating} from '../../../utils/index';
+import {AppRoute} from '../../../utils/const';
 
 const NON_EXISTENT_ID = -1;
 
@@ -13,7 +13,6 @@ type PlaceCardProps = {
 function PlaceCard({hotel, cardClickHandler}: PlaceCardProps): JSX.Element {
   const {price, type, title, isPremium, isFavorite, rating, id} = hotel;
   const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
-  const ratingPersent = (Math.round(rating) / MAX_RATING) * 100;
   const capitalizedType = capitalizeFirstLetter(type);
 
   return (
@@ -43,7 +42,7 @@ function PlaceCard({hotel, cardClickHandler}: PlaceCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${ratingPersent}%` }}></span>
+            <span style={{ width: `${сalculateRating(rating)}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

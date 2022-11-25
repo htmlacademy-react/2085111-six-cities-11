@@ -1,10 +1,20 @@
 import {Comment} from '../../../types/comment';
+import {сalculateRating} from '../../../utils/index';
 
 type CommentItemProps = {
   commentItem: Comment;
 }
 
+const changeDateFormat = (date: string) => {
+  const dateInSeconds = Date.parse(date);
+  const newDate = new Date(dateInSeconds);
+  const finalDate = newDate.toLocaleString('en', { month: 'long', year: 'numeric' });
+  return finalDate;
+};
+
 function CommentItem({commentItem}: CommentItemProps): JSX.Element {
+  const {comment, date, rating, user} = commentItem;
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -12,20 +22,20 @@ function CommentItem({commentItem}: CommentItemProps): JSX.Element {
           <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
         </div>
         <span className="reviews__user-name">
-          Max
+          {user.name}
         </span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${сalculateRating(rating)}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
-          A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
+          {comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time className="reviews__time" dateTime="2019-04-24">{changeDateFormat(date)}</time>
       </div>
     </li>
   );

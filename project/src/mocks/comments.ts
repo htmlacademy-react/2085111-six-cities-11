@@ -1,4 +1,4 @@
-import {Comment} from '../types/comment';
+import { Comment } from '../types/comment';
 
 export const comments: Comment[] = [
   {
@@ -11,6 +11,18 @@ export const comments: Comment[] = [
       'id': 1,
       'isPro': false,
       'name': 'Oliver.conner'
+    },
+  },
+  {
+    'comment': 'Nice place. A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    'date': 'Fri Jun 10 2022 17:40:28 GMT+0600 (Омск, стандартное время)',
+    'id': 2,
+    'rating': 3,
+    'user': {
+      'avatarUrl': 'img/1.png',
+      'id': 2,
+      'isPro': false,
+      'name': 'Alex'
     }
-  }
+  },
 ];
