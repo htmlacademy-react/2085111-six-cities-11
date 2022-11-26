@@ -6,8 +6,7 @@ type CommentItemProps = {
 }
 
 const changeDateFormat = (date: string) => {
-  const dateInSeconds = Date.parse(date);
-  const newDate = new Date(dateInSeconds);
+  const newDate = new Date(Date.parse(date));
   const finalDate = newDate.toLocaleString('en', { month: 'long', year: 'numeric' });
   return finalDate;
 };
