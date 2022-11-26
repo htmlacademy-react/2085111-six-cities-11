@@ -1,3 +1,5 @@
+import {MAX_RATING} from './const';
+
 const capitalizeFirstLetter = (str: string): string => {
   if (str) {
     return str[0].toUpperCase() + str.slice(1);
@@ -5,4 +7,6 @@ const capitalizeFirstLetter = (str: string): string => {
   return str;
 };
 
-export {capitalizeFirstLetter};
+const сalculateRating = (rating: number): number => (Math.round(rating) / MAX_RATING) * 100;
+
+export {capitalizeFirstLetter, сalculateRating};
