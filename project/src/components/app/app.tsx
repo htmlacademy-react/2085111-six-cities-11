@@ -8,6 +8,7 @@ import Favorites from '../../pages/favorites/favorites';
 import Offer from '../../pages/offer/offer';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 type AppScreenProps = {
   settings: SettingsType;
@@ -17,6 +18,7 @@ function App({ settings }: AppScreenProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route
             path={AppRoute.Root}
