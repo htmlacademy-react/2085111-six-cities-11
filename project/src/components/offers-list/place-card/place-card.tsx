@@ -1,22 +1,30 @@
-import {Link} from 'react-router-dom';
-import {Hotel} from '../../../types/hotel';
-import {capitalizeFirstLetter, сalculateRating} from '../../../utils/index';
-import {AppRoute} from '../../../utils/const';
+import { Link } from 'react-router-dom';
+import { Hotel } from '../../../types/hotel';
+import { capitalizeFirstLetter, сalculateRating } from '../../../utils/index';
+import { AppRoute } from '../../../utils/const';
 
 const NON_EXISTENT_ID = -1;
 
 type PlaceCardProps = {
   hotel: Hotel;
-  cardClickHandler: (id: number) => void;
+  cardClickHandler?: (id: number) => void;
 }
 
-function PlaceCard({hotel, cardClickHandler}: PlaceCardProps): JSX.Element {
-  const {price, type, title, isPremium, isFavorite, rating, id} = hotel;
+function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
+  const { price, type, title, isPremium, isFavorite, rating, id } = hotel;
   const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
   const capitalizedType = capitalizeFirstLetter(type);
 
+  const onMouseEnter = () => {
+    cardClickHandler && cardClickHandler(id);
+  };
+
+  const onMouseLeave = () => {
+    cardClickHandler && cardClickHandler(NON_EXISTENT_ID);
+  };
+
   return (
-    <article className="cities__card place-card" onMouseEnter={() => cardClickHandler(id)} onMouseLeave={() => cardClickHandler(NON_EXISTENT_ID)}>
+    <article className="cities__card place-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>

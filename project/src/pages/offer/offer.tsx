@@ -17,8 +17,6 @@ type OfferProps = {
 function Offer({ hotel }: OfferProps): JSX.Element {
   const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host } = hotel;
 
-  const cardClickHandler = (id: number) => id;
-
   return (
     <div className="page">
       <Helmet>
@@ -159,7 +157,7 @@ function Offer({ hotel }: OfferProps): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearbyHotels.map((nearbyHotel: Hotel) => <PlaceCard hotel={nearbyHotel} key={nearbyHotel.id} cardClickHandler={cardClickHandler} />)}
+              {nearbyHotels.map((nearbyHotel: Hotel) => <PlaceCard hotel={nearbyHotel} key={nearbyHotel.id} />)}
             </div>
           </section>
         </div>
