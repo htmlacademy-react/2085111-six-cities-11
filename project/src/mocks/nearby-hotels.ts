@@ -1,6 +1,6 @@
 import {Hotel} from '../types/hotel';
 
-export const hotels: Hotel[] = [
+export const nearbyHotels: Hotel[] = [
   {
     'bedrooms': 3,
     'city': {
@@ -118,45 +118,6 @@ export const hotels: Hotel[] = [
     'price': 132,
     'rating': 4,
     'title': 'Canal View Prinsengracht',
-    'type': 'apartment'
-  },
-
-  {
-    'bedrooms': 3,
-    'city': {
-      'location': {
-        'latitude': 52.370216,
-        'longitude': 4.895168,
-        'zoom': 10
-      },
-      'name': 'Amsterdam'
-    },
-    'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    'goods': [
-      'Heating'
-    ],
-    'host': {
-      'avatarUrl': 'img/4.png',
-      'id': 4,
-      'isPro': true,
-      'name': 'Angelina'
-    },
-    'id': 4,
-    'images': [
-      'img/1.png'
-    ],
-    'isFavorite': true,
-    'isPremium': false,
-    'location': {
-      'latitude': 52.3809553943508,
-      'longitude': 4.939309666406198,
-      'zoom': 8
-    },
-    'maxAdults': 4,
-    'previewImage': 'img/4.png',
-    'price': 180,
-    'rating': 3,
-    'title': 'Beautiful & luxurious studio at great location',
     'type': 'apartment'
   },
 ];
