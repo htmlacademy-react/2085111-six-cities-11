@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import App from './components/app/app';
-import {hotels} from './mocks/hotels';
-import {Hotel} from './types/hotel';
+import { hotels } from './mocks/hotels';
+import { store } from './store';
+import { Hotel } from './types/hotel';
 
 const settings = {
   OffersCount: 312,
@@ -20,8 +22,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App
-      settings = {settings}
-    />
+    <Provider store={store}>
+      <App
+        settings={settings}
+      />
+    </Provider>
   </React.StrictMode>,
 );

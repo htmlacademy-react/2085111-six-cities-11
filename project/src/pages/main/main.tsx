@@ -1,9 +1,12 @@
 import {Helmet} from 'react-helmet-async';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Logo from '../../components/logo/logo';
 import {SettingsType} from '../..';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
+import CitiesList from '../../components/cities-list/cities-list';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getOffersList } from '../../store/action';
 
 type MainProps = {
   settings: SettingsType;
@@ -11,6 +14,14 @@ type MainProps = {
 
 function Main({settings}: MainProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
+
+  const dispatch = useAppDispatch();
+  const hotels = useAppSelector((state) => state.offers);
+  const city = useAppSelector((state) => state.city);
+
+  useEffect(() => {
+    dispatch(getOffersList());
+  }, []);
 
   const cardClickHandler = (id: number) => {
     setSelectedOffer(id);
@@ -51,47 +62,14 @@ function Main({settings}: MainProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <OffersList offersCount={settings.OffersCount} hotels={settings.Hotels} cardClickHandler={cardClickHandler} />
+            <OffersList hotels={hotels} city={city} cardClickHandler={cardClickHandler} />
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map hotels={settings.Hotels} selectedOffer={selectedOffer} />
+                {hotels.length > 0 && <Map hotels={hotels} selectedOffer={selectedOffer} />}
               </section>
             </div>
           </div>

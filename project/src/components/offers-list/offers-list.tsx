@@ -2,16 +2,16 @@ import PlaceCard from './place-card/place-card';
 import {Hotel} from '../../types/hotel';
 
 type OffersListProps = {
-  offersCount: number;
   hotels: Hotel[];
+  city: string;
   cardClickHandler: (id: number) => void;
 };
 
-function OffersList({offersCount, hotels, cardClickHandler}: OffersListProps): JSX.Element {
+function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Element {
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+      <b className="places__found">{hotels.length} places to stay in {city}</b>
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
         <span className="places__sorting-type" tabIndex={0}>
