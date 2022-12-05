@@ -28,6 +28,15 @@ function Map({hotels, selectedOffer}: MapProps): JSX.Element {
   });
 
   useEffect(() => {
+    map?.setView({
+      lat: city.location.latitude,
+      lng: city.location.longitude,
+    },
+    city.location.zoom
+    );
+  }, [city, map]);
+
+  useEffect(() => {
     if (map) {
       hotels.forEach((hotel) => {
         leaflet
@@ -45,7 +54,7 @@ function Map({hotels, selectedOffer}: MapProps): JSX.Element {
         }
       });
     };
-  }, [map, selectedOffer]);
+  }, [map, city, selectedOffer]);
 
   return (
     <div

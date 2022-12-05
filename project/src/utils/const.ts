@@ -1,3 +1,9 @@
+export const CITIES = [
+  'Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'
+];
+
+export const DEFAULT_CITY = CITIES[0];
+
 export const MAX_RATING = 5;
 
 export const MAX_AMOUNT_OF_COMMENTS = 10;
