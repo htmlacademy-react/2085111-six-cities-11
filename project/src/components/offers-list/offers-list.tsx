@@ -2,7 +2,8 @@ import PlaceCard from './place-card/place-card';
 import {Hotel} from '../../types/hotel';
 import Sort from '../sort/sort';
 import {sortingOffers} from '../../utils';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {sortTypes} from '../../utils/const';
 
 type OffersListProps = {
   hotels: Hotel[];
@@ -12,10 +13,19 @@ type OffersListProps = {
 
 function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Element {
   const [sortedHotels, setSortedHotels] = useState(Array.from(hotels));
+  const [sortingName, setSortingName] = useState(sortTypes[0]);
 
   const sortTypeClickHandler = (sortName: string) => {
-    setSortedHotels(sortingOffers(sortedHotels, sortName));
+    setSortingName(sortName);
   };
+
+  useEffect(() => {
+    setSortedHotels(Array.from(hotels));
+  }, [hotels.length]);
+
+  useEffect(() => {
+    setSortedHotels(sortingOffers(sortedHotels, sortingName));
+  }, [sortingName]);
 
   return (
     <section className="cities__places places">
@@ -23,7 +33,7 @@ function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Elem
       <b className="places__found">{hotels.length} places to stay in {city}</b>
       <Sort sortTypeClickHandler={sortTypeClickHandler} />
       <div className="cities__places-list places__list tabs__content">
-        {sortedHotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
+        {(sortingName === sortTypes[0] ? hotels : sortedHotels).map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
       </div>
     </section>
   );
