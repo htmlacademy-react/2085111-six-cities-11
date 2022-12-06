@@ -22,7 +22,7 @@ function App({ settings }: AppScreenProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<Main settings={settings} />}
+            element={<Main />}
           />
           <Route
             path={AppRoute.Login}

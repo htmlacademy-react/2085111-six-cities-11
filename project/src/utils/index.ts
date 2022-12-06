@@ -13,19 +13,16 @@ const сalculateRating = (rating: number): number => (Math.round(rating) / MAX_R
 
 const sortingOffers = (hotels: Hotel[], sortName: string) => {
   if (hotels.length > 1) {
-    return hotels;
-    // hotels.sort((hotelA, hotelB) => hotelA.rating - hotelB.rating);
-    // switch (sortName) {
-    //   case sortTypes[1]:
-    //     return hotels;
-    //     // .sort((hotelA, hotelB) => hotelA.price - hotelB.price);
-    //   // case sortTypes[2]:
-    //   //   return hotels.sort((hotelA, hotelB) => hotelB.price - hotelA.price);
-    //   // case sortTypes[3]:
-    //   //   return hotels.sort((hotelA, hotelB) => hotelA.rating - hotelB.rating);
-    //   default:
-    //     return hotels;
-    // }
+    switch (sortName) {
+      case sortTypes[1]:
+        return hotels.sort((hotelA, hotelB) => hotelA.price - hotelB.price);
+      case sortTypes[2]:
+        return hotels.sort((hotelA, hotelB) => hotelB.price - hotelA.price);
+      case sortTypes[3]:
+        return hotels.sort((hotelA, hotelB) => hotelB.rating - hotelA.rating);
+      default:
+        return hotels;
+    }
   }
   return hotels;
 };

@@ -1,18 +1,13 @@
 import {Helmet} from 'react-helmet-async';
 import {useEffect, useState} from 'react';
 import Logo from '../../components/logo/logo';
-import {SettingsType} from '../..';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getOffersList } from '../../store/action';
 
-type MainProps = {
-  settings: SettingsType;
-};
-
-function Main({settings}: MainProps): JSX.Element {
+function Main(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
   const dispatch = useAppDispatch();

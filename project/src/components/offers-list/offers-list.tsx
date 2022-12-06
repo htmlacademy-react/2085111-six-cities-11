@@ -11,10 +11,10 @@ type OffersListProps = {
 };
 
 function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Element {
-  const [sortedHotels, setSortedHotels] = useState(hotels);
+  const [sortedHotels, setSortedHotels] = useState(Array.from(hotels));
 
   const sortTypeClickHandler = (sortName: string) => {
-    setSortedHotels(sortingOffers(hotels, sortName));
+    setSortedHotels(sortingOffers(sortedHotels, sortName));
   };
 
   return (
@@ -23,7 +23,7 @@ function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Elem
       <b className="places__found">{hotels.length} places to stay in {city}</b>
       <Sort sortTypeClickHandler={sortTypeClickHandler} />
       <div className="cities__places-list places__list tabs__content">
-        {hotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
+        {sortedHotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
       </div>
     </section>
   );
