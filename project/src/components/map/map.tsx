@@ -54,7 +54,7 @@ function Map({hotels, selectedOffer}: MapProps): JSX.Element {
         }
       });
     };
-  }, [map, city, selectedOffer]);
+  }, [map, city, selectedOffer, currentCustomIcon, defaultCustomIcon, hotels]);
 
   return (
     <div

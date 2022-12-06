@@ -1,5 +1,9 @@
 import PlaceCard from './place-card/place-card';
 import {Hotel} from '../../types/hotel';
+import Sort from '../sort/sort';
+import {sortingOffers} from '../../utils';
+import {useEffect, useState} from 'react';
+import {sortTypes} from '../../utils/const';
 
 type OffersListProps = {
   hotels: Hotel[];
@@ -8,27 +12,28 @@ type OffersListProps = {
 };
 
 function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Element {
+  const [sortedHotels, setSortedHotels] = useState(Array.from(hotels));
+  const [sortingName, setSortingName] = useState(sortTypes.POPULAR);
+
+  const sortTypeClickHandler = (sortName: string) => {
+    setSortingName(sortName);
+  };
+
+  useEffect(() => {
+    setSortedHotels(Array.from(hotels));
+  }, [hotels, hotels.length]);
+
+  useEffect(() => {
+    setSortedHotels(sortingOffers(sortedHotels, sortingName));
+  }, [sortedHotels, sortingName]);
+
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">{hotels.length} places to stay in {city}</b>
-      <form className="places__sorting" action="#" method="get">
-        <span className="places__sorting-caption">Sort by</span>
-        <span className="places__sorting-type" tabIndex={0}>
-          Popular
-          <svg className="places__sorting-arrow" width="7" height="4">
-            <use xlinkHref="#icon-arrow-select"></use>
-          </svg>
-        </span>
-        <ul className="places__options places__options--custom places__options--opened">
-          <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-          <li className="places__option" tabIndex={0}>Price: low to high</li>
-          <li className="places__option" tabIndex={0}>Price: high to low</li>
-          <li className="places__option" tabIndex={0}>Top rated first</li>
-        </ul>
-      </form>
+      <Sort sortTypeClickHandler={sortTypeClickHandler} />
       <div className="cities__places-list places__list tabs__content">
-        {hotels.map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
+        {(sortingName === sortTypes.POPULAR ? hotels : sortedHotels).map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
       </div>
     </section>
   );
