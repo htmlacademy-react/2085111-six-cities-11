@@ -10,7 +10,7 @@ function FavoriteItem({hotelsOfOneCity}: FavoriteItemProps): JSX.Element {
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <a className="locations__item-link" href="#0">
             <span>{hotelsOfOneCity[0].city.name}</span>
           </a>
         </div>

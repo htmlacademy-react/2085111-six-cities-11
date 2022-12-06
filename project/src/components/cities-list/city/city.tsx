@@ -9,7 +9,7 @@ type CityProps = {
 function City({name, cityClickHandler, isActive}: CityProps): JSX.Element {
   return (
     <li className="locations__item" onClick={() => cityClickHandler(name)}>
-      <a className={cn('locations__item-link tabs__item', {'tabs__item--active': isActive})} href="#">
+      <a className={cn('locations__item-link tabs__item', {'tabs__item--active': isActive})} href="#0">
         <span>{name}</span>
       </a>
     </li>

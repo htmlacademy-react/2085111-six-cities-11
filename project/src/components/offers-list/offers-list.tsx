@@ -13,7 +13,7 @@ type OffersListProps = {
 
 function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Element {
   const [sortedHotels, setSortedHotels] = useState(Array.from(hotels));
-  const [sortingName, setSortingName] = useState(sortTypes[0]);
+  const [sortingName, setSortingName] = useState(sortTypes.POPULAR);
 
   const sortTypeClickHandler = (sortName: string) => {
     setSortingName(sortName);
@@ -21,11 +21,11 @@ function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Elem
 
   useEffect(() => {
     setSortedHotels(Array.from(hotels));
-  }, [hotels.length]);
+  }, [hotels, hotels.length]);
 
   useEffect(() => {
     setSortedHotels(sortingOffers(sortedHotels, sortingName));
-  }, [sortingName]);
+  }, [sortedHotels, sortingName]);
 
   return (
     <section className="cities__places places">
@@ -33,7 +33,7 @@ function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Elem
       <b className="places__found">{hotels.length} places to stay in {city}</b>
       <Sort sortTypeClickHandler={sortTypeClickHandler} />
       <div className="cities__places-list places__list tabs__content">
-        {(sortingName === sortTypes[0] ? hotels : sortedHotels).map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
+        {(sortingName === sortTypes.POPULAR ? hotels : sortedHotels).map((hotel: Hotel) => <PlaceCard hotel={hotel} key={hotel.id} cardClickHandler={cardClickHandler} />)}
       </div>
     </section>
   );

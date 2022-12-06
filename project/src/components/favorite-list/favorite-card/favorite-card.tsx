@@ -22,8 +22,8 @@ function FavoriteCard({ hotel }: FavoriteCardProps): JSX.Element {
       )}
 
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image" />
+        <a href="#0">
+          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place" />
         </a>
       </div>
       <div className="favorites__card-info place-card__info">
@@ -46,7 +46,7 @@ function FavoriteCard({ hotel }: FavoriteCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <a href="#0">{title}</a>
         </h2>
         <p className="place-card__type">{capitalizedType}</p>
       </div>

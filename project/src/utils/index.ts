@@ -14,11 +14,11 @@ const сalculateRating = (rating: number): number => (Math.round(rating) / MAX_R
 const sortingOffers = (hotels: Hotel[], sortName: string) => {
   if (hotels.length > 1) {
     switch (sortName) {
-      case sortTypes[1]:
+      case sortTypes.PRICE_LOW:
         return hotels.sort((hotelA, hotelB) => hotelA.price - hotelB.price);
-      case sortTypes[2]:
+      case sortTypes.PRICE_HIGH:
         return hotels.sort((hotelA, hotelB) => hotelB.price - hotelA.price);
-      case sortTypes[3]:
+      case sortTypes.RATING:
         return hotels.sort((hotelA, hotelB) => hotelB.rating - hotelA.rating);
       default:
         return hotels;
