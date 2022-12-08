@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Hotel} from '../types/hotel';
-import {AuthorizationStatus} from '../utils/const';
+import {AppRoute, AuthorizationStatus} from '../utils/const';
 
 export const changeCity = createAction('sixCities/changeCity', (city: string) => ({payload: city}));
 
@@ -8,6 +8,6 @@ export const loadOffers = createAction<Hotel[]>('data/offers');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
-export const setError = createAction<string | null>('sixCities/setError');
-
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+
+export const redirectToRoute = createAction<AppRoute>('sixCities/redirectToRoute');

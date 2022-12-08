@@ -1,18 +1,15 @@
 import { FormEvent, useRef } from 'react';
 import {Helmet} from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
-import { AppRoute } from '../../utils/const';
 
 function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -57,7 +54,7 @@ function Login(): JSX.Element {
                 <label className="visually-hidden">Password</label>
                 <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required />
               </div>
-              <button onClick={() => navigate(AppRoute.Root)} className="login__submit form__submit button" type="submit">Sign in</button>
+              <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">

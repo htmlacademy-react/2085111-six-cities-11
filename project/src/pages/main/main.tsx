@@ -1,13 +1,17 @@
-import {Helmet} from 'react-helmet-async';
-import {useState} from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import Logo from '../../components/logo/logo';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import {useAppSelector} from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Link } from 'react-router-dom';
+import { logoutAction } from '../../store/api-actions';
 
 
 function Main(): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
   const hotels = useAppSelector((state) => state.offers);
@@ -41,7 +45,18 @@ function Main(): JSX.Element {
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
+                    <span className="header__signout">
+                      <Link
+                        className="result-logout__link"
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          dispatch(logoutAction());
+                        }}
+                        to='/'
+                      >
+                        Sign out
+                      </ Link>
+                    </span>
                   </a>
                 </li>
               </ul>

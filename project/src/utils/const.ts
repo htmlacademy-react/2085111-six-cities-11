@@ -8,8 +8,6 @@ export const MAX_RATING = 5;
 
 export const MAX_AMOUNT_OF_COMMENTS = 10;
 
-export const TIMEOUT_SHOW_ERROR = 2000;
-
 export enum AppRoute {
   Root = '/',
   Login = '/login',

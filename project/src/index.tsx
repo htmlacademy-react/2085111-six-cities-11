@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
-import ErrorMessage from './components/error-message/error-message';
-import {hotels} from './mocks/hotels';
-import {store} from './store';
-import {checkAuthAction, fetchOffersAction} from './store/api-actions';
-import {Hotel} from './types/hotel';
+import { hotels } from './mocks/hotels';
+import { store } from './store';
+import { checkAuthAction, fetchOffersAction } from './store/api-actions';
+import { Hotel } from './types/hotel';
+import 'react-toastify/dist/ReactToastify.css';
 
 const settings = {
   OffersCount: 312,
@@ -28,7 +29,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ErrorMessage />
+      <ToastContainer />
       <App
         settings={settings}
       />
