@@ -1,22 +1,18 @@
 import {Helmet} from 'react-helmet-async';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Logo from '../../components/logo/logo';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getOffersList } from '../../store/action';
+import {useAppSelector} from '../../hooks';
+
 
 function Main(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
-  const dispatch = useAppDispatch();
   const hotels = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
-
-  useEffect(() => {
-    dispatch(getOffersList());
-  }, []);
+  const filteredHotels = hotels.filter((offer) => offer.city.name === city);
 
   const cardClickHandler = (id: number) => {
     setSelectedOffer(id);
@@ -61,10 +57,10 @@ function Main(): JSX.Element {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <OffersList hotels={hotels} city={city} cardClickHandler={cardClickHandler} />
+            <OffersList hotels={filteredHotels} city={city} cardClickHandler={cardClickHandler} />
             <div className="cities__right-section">
               <section className="cities__map map">
-                {hotels.length > 0 && <Map hotels={hotels} selectedOffer={selectedOffer} />}
+                {filteredHotels.length > 0 && <Map hotels={filteredHotels} selectedOffer={selectedOffer} />}
               </section>
             </div>
           </div>

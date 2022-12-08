@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useAppDispatch} from '../../hooks';
-import {changeCity, getOffersList} from '../../store/action';
+import {changeCity} from '../../store/action';
 import {CITIES, DEFAULT_CITY} from '../../utils/const';
 import City from './city/city';
 
@@ -11,7 +11,6 @@ function CitiesList(): JSX.Element {
   const cityClickHandler = (name: string) => {
     setActiveCity(name);
     dispatch(changeCity(name));
-    dispatch(getOffersList());
   };
 
   return (
