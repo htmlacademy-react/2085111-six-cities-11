@@ -31,3 +31,13 @@ export const sortTypes = {
   PRICE_HIGH: 'Price: high to low',
   RATING: 'Top rated first',
 };
+
+export enum APIRoute {
+  Offers = '/hotels',
+  Offer = '/hotels/{hotelId}',
+  NearbyHotel = '/hotels/{hotelId}/nearby',
+  Favorite = '/favorite',
+  Comments = '/comments/{hotelId}',
+  Login = '/login',
+  Logout = '/logout',
+}

@@ -1,11 +1,20 @@
-import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, getOffersList} from './action';
-import {hotels} from '../mocks/hotels';
-import {DEFAULT_CITY} from '../utils/const';
+import { createReducer } from '@reduxjs/toolkit';
+import { changeCity, loadOffers, requireAuthorization, setOffersDataLoadingStatus } from './action';
+import { DEFAULT_CITY, AuthorizationStatus } from '../utils/const';
+import { Hotel } from '../types/hotel';
 
-const initialState = {
+type InitialState = {
+  city: string;
+  offers: Hotel[];
+  authorizationStatus: AuthorizationStatus;
+  isOffersDataLoading: boolean;
+}
+
+const initialState: InitialState = {
   city: DEFAULT_CITY,
-  offers: hotels,
+  offers: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isOffersDataLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -13,7 +22,13 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
     })
-    .addCase(getOffersList, (state) => {
-      state.offers = hotels.filter((offer) => offer.city.name === state.city);
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
     });
 });

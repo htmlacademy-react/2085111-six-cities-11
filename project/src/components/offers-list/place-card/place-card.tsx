@@ -11,7 +11,7 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
-  const { price, type, title, isPremium, isFavorite, rating, id } = hotel;
+  const { price, type, title, isPremium, isFavorite, rating, id, images } = hotel;
   const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
   const capitalizedType = capitalizeFirstLetter(type);
 
@@ -32,7 +32,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#0">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place" />
+          <img className="place-card__image" src={images[0]} width="260" height="200" alt="Place" />
         </a>
       </div>
       <div className="place-card__info">
