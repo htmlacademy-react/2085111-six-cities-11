@@ -4,14 +4,11 @@ import Logo from '../../components/logo/logo';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Link } from 'react-router-dom';
-import { logoutAction } from '../../store/api-actions';
+import {useAppSelector} from '../../hooks';
+import Header from '../../components/header/header';
 
 
 function Main(): JSX.Element {
-  const dispatch = useAppDispatch();
-
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
   const hotels = useAppSelector((state) => state.offers);
@@ -33,34 +30,7 @@ function Main(): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">
-                      <Link
-                        className="result-logout__link"
-                        onClick={(evt) => {
-                          evt.preventDefault();
-                          dispatch(logoutAction());
-                        }}
-                        to='/'
-                      >
-                        Sign out
-                      </ Link>
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Header />
           </div>
         </div>
       </header>
