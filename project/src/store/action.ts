@@ -11,3 +11,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 
 export const redirectToRoute = createAction<AppRoute>('sixCities/redirectToRoute');
+
+export const setEmail = createAction<string>('user/setEmail');

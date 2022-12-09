@@ -6,7 +6,7 @@ import {Hotel} from '../types/hotel';
 import {AppDispatch, State} from '../types/state';
 import {UserData} from '../types/user-data';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../utils/const';
-import {loadOffers, redirectToRoute, requireAuthorization, setOffersDataLoadingStatus} from './action';
+import {loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus} from './action';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -47,6 +47,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
+    dispatch(setEmail(email));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Root));
   },
