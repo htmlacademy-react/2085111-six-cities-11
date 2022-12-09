@@ -4,7 +4,7 @@ import Logo from '../../components/logo/logo';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import {useAppSelector} from '../../hooks';
 import Header from '../../components/header/header';
 
 
