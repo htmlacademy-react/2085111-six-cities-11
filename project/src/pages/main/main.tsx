@@ -5,14 +5,10 @@ import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Link } from 'react-router-dom';
-import { logoutAction } from '../../store/api-actions';
 import Header from '../../components/header/header';
 
 
 function Main(): JSX.Element {
-  const dispatch = useAppDispatch();
-
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
   const hotels = useAppSelector((state) => state.offers);
