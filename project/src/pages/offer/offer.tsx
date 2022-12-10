@@ -4,18 +4,33 @@ import CommentForm from '../../components/comment-form/comment-form';
 import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
 import PlaceCard from '../../components/offers-list/place-card/place-card';
-import { comments } from '../../mocks/comments';
-import { nearbyHotels } from '../../mocks/nearby-hotels';
 import { Hotel } from '../../types/hotel';
 import { сalculateRating, capitalizeFirstLetter } from '../../utils/index';
 import cn from 'classnames';
+import { useParams } from 'react-router-dom';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import Header from '../../components/header/header';
+import { AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
 
-type OfferProps = {
-  hotel: Hotel;
-}
+function Offer(): JSX.Element {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const currentOfferId = Number(id);
 
-function Offer({ hotel }: OfferProps): JSX.Element {
-  const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host } = hotel;
+  useEffect(() => {
+    dispatch(fetchCurrentOfferAction(currentOfferId));
+    dispatch(fetchCommentsAction(currentOfferId));
+    dispatch(fetchNearbyOffersAction(currentOfferId));
+  }, [currentOfferId, dispatch]);
+
+  const currentHotel = useAppSelector((state) => state.currentOffer);
+  const comments = useAppSelector((state) => state.currentComments);
+  const nearbyHotels = useAppSelector((state) => state.nearbyOffers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host, images } = currentHotel;
 
   return (
     <div className="page">
@@ -28,23 +43,7 @@ function Offer({ hotel }: OfferProps): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Header />
           </div>
         </div>
       </header>
@@ -53,24 +52,11 @@ function Offer({ hotel }: OfferProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
+              {images?.slice(0, MAX_AMOUNT_OF_PHOTOS).map((image) => (
+                <div className="property__image-wrapper" key={image}>
+                  <img className="property__image" src={image} alt={title} />
+                </div>
+              ))}
             </div>
           </div>
           <div className="property__container container">
@@ -126,7 +112,7 @@ function Offer({ hotel }: OfferProps): JSX.Element {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className={cn('property__avatar-wrapper', 'user__avatar-wrapper', { 'property__avatar-wrapper--pro': host.isPro })}>
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
                     {host.name}
@@ -144,20 +130,20 @@ function Offer({ hotel }: OfferProps): JSX.Element {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-                <CommentsList comments={comments} />
-                <CommentForm />
+                {comments && <CommentsList comments={comments} />}
+                {authorizationStatus === AuthorizationStatus.Auth ? <CommentForm id={currentOfferId} /> : ''}
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <Map hotels={nearbyHotels} />
+            {nearbyHotels.length && <Map hotels={nearbyHotels} />}
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearbyHotels.map((nearbyHotel: Hotel) => <PlaceCard hotel={nearbyHotel} key={nearbyHotel.id} />)}
+              {nearbyHotels.length && nearbyHotels.map((nearbyHotel: Hotel) => <PlaceCard hotel={nearbyHotel} key={nearbyHotel.id} />)}
             </div>
           </section>
         </div>

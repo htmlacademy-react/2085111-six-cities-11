@@ -3,21 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
-import { hotels } from './mocks/hotels';
 import { store } from './store';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
-import { Hotel } from './types/hotel';
 import 'react-toastify/dist/ReactToastify.css';
-
-const settings = {
-  OffersCount: 312,
-  Hotels: hotels,
-};
-
-export type SettingsType = {
-  OffersCount: number;
-  Hotels: Hotel[];
-};
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
@@ -29,10 +17,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App
-        settings={settings}
-      />
+      <ToastContainer autoClose={2000} />
+      <App />
     </Provider>
   </React.StrictMode>,
 );
