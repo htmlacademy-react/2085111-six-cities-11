@@ -51,10 +51,10 @@ function App({ settings }: AppScreenProps): JSX.Element {
           />
           <Route
             path={`${AppRoute.Room}/:id`}
-            element={<Offer hotel={settings.Hotels[0]} />}
+            element={<Offer />}
           />
           <Route
-            path='*'
+            path={AppRoute.NotFound}
             element={<NotFound />}
           />
         </Routes>

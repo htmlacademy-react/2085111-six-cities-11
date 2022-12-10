@@ -6,6 +6,8 @@ export const changeCity = createAction('sixCities/changeCity', (city: string) =>
 
 export const loadOffers = createAction<Hotel[]>('data/offers');
 
+export const loadOffer = createAction<Hotel>('data/offer');
+
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');

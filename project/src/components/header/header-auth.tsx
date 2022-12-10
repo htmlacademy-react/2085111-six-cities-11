@@ -6,6 +6,7 @@ import { AppRoute } from '../../utils/const';
 function HeaderAuth(): JSX.Element {
   const dispatch = useAppDispatch();
   const email = useAppSelector((state) => state.email);
+  console.log(email);
 
   return (
     <ul className='header__nav-list'>
