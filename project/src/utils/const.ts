@@ -37,6 +37,7 @@ export const sortTypes = {
 
 export enum APIRoute {
   Offers = '/hotels',
+  Comments = '/comments',
   Favorite = '/favorite',
   Login = '/login',
   Logout = '/logout',

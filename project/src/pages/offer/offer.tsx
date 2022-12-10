@@ -4,13 +4,12 @@ import CommentForm from '../../components/comment-form/comment-form';
 import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
 import PlaceCard from '../../components/offers-list/place-card/place-card';
-import { comments } from '../../mocks/comments';
 import { nearbyHotels } from '../../mocks/nearby-hotels';
 import { Hotel } from '../../types/hotel';
 import { сalculateRating, capitalizeFirstLetter } from '../../utils/index';
 import cn from 'classnames';
 import { useParams } from 'react-router-dom';
-import { fetchCurrentOfferAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
@@ -23,9 +22,12 @@ function Offer(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchCurrentOfferAction(currentOfferId));
+    dispatch(fetchCommentsAction(currentOfferId));
   }, [currentOfferId, dispatch]);
 
   const currentHotel = useAppSelector((state) => state.currentOffer);
+  const comments = useAppSelector((state) => state.currentComments);
+
   const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host, images } = currentHotel;
 
   return (
@@ -126,7 +128,7 @@ function Offer(): JSX.Element {
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-                <CommentsList comments={comments} />
+                {comments && <CommentsList comments={comments} />}
                 <CommentForm />
               </section>
             </div>
