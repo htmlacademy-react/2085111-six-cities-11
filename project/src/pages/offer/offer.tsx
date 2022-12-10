@@ -12,7 +12,7 @@ import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction }
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
-import { MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
+import { AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
@@ -28,6 +28,7 @@ function Offer(): JSX.Element {
   const currentHotel = useAppSelector((state) => state.currentOffer);
   const comments = useAppSelector((state) => state.currentComments);
   const nearbyHotels = useAppSelector((state) => state.nearbyOffers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host, images } = currentHotel;
 
@@ -130,7 +131,7 @@ function Offer(): JSX.Element {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 {comments && <CommentsList comments={comments} />}
-                <CommentForm />
+                {authorizationStatus === AuthorizationStatus.Auth ? <CommentForm id={currentOfferId} /> : ''}
               </section>
             </div>
           </div>

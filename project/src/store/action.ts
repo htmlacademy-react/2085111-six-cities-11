@@ -20,3 +20,7 @@ export const setEmail = createAction<string>('user/setEmail');
 export const loadComments = createAction<Comment[]>('data/comments');
 
 export const loadNearbyOffers = createAction<Hotel[]>('data/nearbyOffers');
+
+export const addNewComment = createAction<Comment>('data/addNewComment');
+
+export const checkCommentPosting = createAction<boolean>('data/checkCommentPosting');

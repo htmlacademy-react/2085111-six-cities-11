@@ -4,10 +4,11 @@ import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { Comment } from '../types/comment';
 import { Hotel } from '../types/hotel';
+import { NewComment } from '../types/new-comment';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../utils/const';
-import { loadComments, loadNearbyOffers, loadOffer, loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
+import { addNewComment, checkCommentPosting, loadComments, loadNearbyOffers, loadOffer, loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -60,6 +61,24 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
   async (id, { dispatch, extra: api }) => {
     const { data } = await api.get<Hotel[]>(`${APIRoute.Offers}/${id}/nearby`);
     dispatch(loadNearbyOffers(data));
+  },
+);
+
+export const postNewCommentAction = createAsyncThunk<void, NewComment, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postNewComment',
+  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+    try {
+      const {data} = await api.post<Comment>(`${APIRoute.Comments}/${String(id)}`, { comment, rating });
+      dispatch(checkCommentPosting(true));
+      // dispatch(addNewComment(data));
+    } catch {
+      dispatch(checkCommentPosting(false));
+    }
+
   },
 );
 

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, loadComments, loadNearbyOffers, loadOffer, loadOffers, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
+import { addNewComment, changeCity, checkCommentPosting, loadComments, loadNearbyOffers, loadOffer, loadOffers, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
 import { DEFAULT_CITY, AuthorizationStatus, currentOffer } from '../utils/const';
 import { Hotel } from '../types/hotel';
 import { Comment } from '../types/comment';
@@ -13,6 +13,7 @@ type InitialState = {
   email: string;
   currentComments: Comment[];
   nearbyOffers: Hotel[];
+  isPostingOk: boolean;
 }
 
 const initialState: InitialState = {
@@ -24,6 +25,7 @@ const initialState: InitialState = {
   email: '',
   currentComments: [],
   nearbyOffers: [],
+  isPostingOk: true,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -51,5 +53,11 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
+    })
+    .addCase(addNewComment, (state, action) => {
+      state.currentComments.push(action.payload);
+    })
+    .addCase(checkCommentPosting, (state, action) => {
+      state.isPostingOk = action.payload;
     });
 });

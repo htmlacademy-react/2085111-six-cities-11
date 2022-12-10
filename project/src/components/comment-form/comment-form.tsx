@@ -1,6 +1,17 @@
-import { useState, MouseEvent, ChangeEvent } from 'react';
+import { useState, MouseEvent, ChangeEvent, useRef } from 'react';
+import { toast } from 'react-toastify';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { postNewCommentAction } from '../../store/api-actions';
 
-function CommentForm(): JSX.Element {
+type CommentFormProps = {
+  id: number;
+};
+
+function CommentForm({ id }: CommentFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const formRef = useRef<HTMLFormElement>(null);
+  const isPostOk = useAppSelector((state) => state.isPostingOk);
+
   const [formData, setFormData] = useState({
     rating: '',
     comment: '',
@@ -26,8 +37,30 @@ function CommentForm(): JSX.Element {
     }));
   };
 
+  const commentSubmitHandle = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    dispatch(postNewCommentAction({
+      id,
+      comment: formData.comment,
+      rating: Number(formData.rating),
+    }));
+
+    if (isPostOk) {
+      setFormData({
+        rating: '',
+        comment: '',
+        isRatingOk: false,
+        isCommentOk: false,
+      });
+      formRef.current && formRef.current.reset();
+    } else {
+      toast.warn('Error: cannot post a new review');
+    }
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form ref={formRef} className="reviews__form form" action="#" method="post" onSubmit={commentSubmitHandle}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" onClick={(evt) => (starClickHandle(evt))} />

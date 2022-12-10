@@ -5,13 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
 import { store } from './store';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
-import { Hotel } from './types/hotel';
 import 'react-toastify/dist/ReactToastify.css';
-
-export type SettingsType = {
-  OffersCount: number;
-  Hotels: Hotel[];
-};
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
