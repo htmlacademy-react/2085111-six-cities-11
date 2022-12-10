@@ -7,7 +7,7 @@ import { Hotel } from '../types/hotel';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../utils/const';
-import { loadComments, loadOffer, loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
+import { loadComments, loadNearbyOffers, loadOffer, loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -44,10 +44,22 @@ export const fetchCommentsAction = createAsyncThunk<void, number, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchCurrentOffer',
+  'data/fetchComments',
   async (id, { dispatch, extra: api }) => {
     const { data } = await api.get<Comment[]>(`${APIRoute.Comments}/${id}`);
     dispatch(loadComments(data));
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<void, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearbyOffers',
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<Hotel[]>(`${APIRoute.Offers}/${id}/nearby`);
+    dispatch(loadNearbyOffers(data));
   },
 );
 

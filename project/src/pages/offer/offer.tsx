@@ -4,12 +4,11 @@ import CommentForm from '../../components/comment-form/comment-form';
 import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
 import PlaceCard from '../../components/offers-list/place-card/place-card';
-import { nearbyHotels } from '../../mocks/nearby-hotels';
 import { Hotel } from '../../types/hotel';
 import { сalculateRating, capitalizeFirstLetter } from '../../utils/index';
 import cn from 'classnames';
 import { useParams } from 'react-router-dom';
-import { fetchCommentsAction, fetchCurrentOfferAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
@@ -23,10 +22,12 @@ function Offer(): JSX.Element {
   useEffect(() => {
     dispatch(fetchCurrentOfferAction(currentOfferId));
     dispatch(fetchCommentsAction(currentOfferId));
+    dispatch(fetchNearbyOffersAction(currentOfferId));
   }, [currentOfferId, dispatch]);
 
   const currentHotel = useAppSelector((state) => state.currentOffer);
   const comments = useAppSelector((state) => state.currentComments);
+  const nearbyHotels = useAppSelector((state) => state.nearbyOffers);
 
   const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host, images } = currentHotel;
 
@@ -134,14 +135,14 @@ function Offer(): JSX.Element {
             </div>
           </div>
           <section className="property__map map">
-            <Map hotels={nearbyHotels} />
+            {nearbyHotels.length && <Map hotels={nearbyHotels} />}
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearbyHotels.map((nearbyHotel: Hotel) => <PlaceCard hotel={nearbyHotel} key={nearbyHotel.id} />)}
+              {nearbyHotels.length && nearbyHotels.map((nearbyHotel: Hotel) => <PlaceCard hotel={nearbyHotel} key={nearbyHotel.id} />)}
             </div>
           </section>
         </div>
