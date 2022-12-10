@@ -1,6 +1,5 @@
 import { useState, MouseEvent, ChangeEvent, useRef } from 'react';
-import { toast } from 'react-toastify';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { postNewCommentAction } from '../../store/api-actions';
 
 type CommentFormProps = {
@@ -10,7 +9,6 @@ type CommentFormProps = {
 function CommentForm({ id }: CommentFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement>(null);
-  const isPostOk = useAppSelector((state) => state.isPostingOk);
 
   const [formData, setFormData] = useState({
     rating: '',
@@ -46,17 +44,14 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       rating: Number(formData.rating),
     }));
 
-    if (isPostOk) {
-      setFormData({
-        rating: '',
-        comment: '',
-        isRatingOk: false,
-        isCommentOk: false,
-      });
-      formRef.current && formRef.current.reset();
-    } else {
-      toast.warn('Error: cannot post a new review');
-    }
+    setFormData({
+      rating: '',
+      comment: '',
+      isRatingOk: false,
+      isCommentOk: false,
+    });
+
+    formRef.current && formRef.current.reset();
   };
 
   return (

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
+import { toast } from 'react-toastify';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
 import { Comment } from '../types/comment';
@@ -8,7 +9,7 @@ import { NewComment } from '../types/new-comment';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../utils/const';
-import { addNewComment, checkCommentPosting, loadComments, loadNearbyOffers, loadOffer, loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
+import { addNewComment, loadComments, loadNearbyOffers, loadOffer, loadOffers, redirectToRoute, requireAuthorization, setEmail, setOffersDataLoadingStatus } from './action';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -72,13 +73,13 @@ export const postNewCommentAction = createAsyncThunk<void, NewComment, {
   'data/postNewComment',
   async ({ id, comment, rating }, { dispatch, extra: api }) => {
     try {
-      const {data} = await api.post<Comment>(`${APIRoute.Comments}/${String(id)}`, { comment, rating });
-      dispatch(checkCommentPosting(true));
-      // dispatch(addNewComment(data));
+      const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${String(id)}`, { comment, rating });
+      const newComment = data.slice(-1)[0];
+      dispatch(addNewComment(newComment));
+      toast.success('Your comment has been sent');
     } catch {
-      dispatch(checkCommentPosting(false));
+      toast.error('Error: cannot post a new review');
     }
-
   },
 );
 
