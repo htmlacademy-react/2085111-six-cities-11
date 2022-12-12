@@ -43,6 +43,12 @@ export enum APIRoute {
   Logout = '/logout',
 }
 
+export enum NameSpace {
+  Comments = 'COMMENTS',
+  Offers = 'OFFERS',
+  User = 'USER',
+}
+
 export const currentOffer = {
   'bedrooms': 0,
   'city': {

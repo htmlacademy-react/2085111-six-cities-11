@@ -13,6 +13,9 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
 import { AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
+import { getCurrentOffer, getNearbyOffers } from '../../store/offers-process/selectors';
+import { getComments } from '../../store/comments-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
@@ -25,10 +28,10 @@ function Offer(): JSX.Element {
     dispatch(fetchNearbyOffersAction(currentOfferId));
   }, [currentOfferId, dispatch]);
 
-  const currentHotel = useAppSelector((state) => state.currentOffer);
-  const comments = useAppSelector((state) => state.currentComments);
-  const nearbyHotels = useAppSelector((state) => state.nearbyOffers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const currentHotel = useAppSelector(getCurrentOffer);
+  const comments = useAppSelector(getComments);
+  const nearbyHotels = useAppSelector(getNearbyOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host, images } = currentHotel;
 

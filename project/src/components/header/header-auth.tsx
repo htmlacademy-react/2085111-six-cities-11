@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { getEmail } from '../../store/user-process/selectors';
 import { AppRoute } from '../../utils/const';
 
 function HeaderAuth(): JSX.Element {
   const dispatch = useAppDispatch();
-  const email = useAppSelector((state) => state.email);
+  const email = useAppSelector(getEmail);
 
   return (
     <ul className='header__nav-list'>
