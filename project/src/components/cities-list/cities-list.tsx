@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useAppDispatch} from '../../hooks';
-import {changeCity} from '../../store/action';
+import { changeCity } from '../../store/offers-process/offers-process';
 import {CITIES, DEFAULT_CITY} from '../../utils/const';
 import City from './city/city';
 

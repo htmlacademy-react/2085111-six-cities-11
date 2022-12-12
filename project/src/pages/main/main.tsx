@@ -6,13 +6,14 @@ import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import {useAppSelector} from '../../hooks';
 import Header from '../../components/header/header';
+import { getCurrentCity, getOffers } from '../../store/offers-process/selectors';
 
 
 function Main(): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
-  const hotels = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
+  const hotels = useAppSelector(getOffers);
+  const city = useAppSelector(getCurrentCity);
   const filteredHotels = hotels.filter((offer) => offer.city.name === city);
 
   const cardClickHandler = (id: number) => {

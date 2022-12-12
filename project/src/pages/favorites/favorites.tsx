@@ -1,11 +1,12 @@
 import {Helmet} from 'react-helmet-async';
-import Logo from '../../components/logo/logo';
 import {Hotel} from '../../types/hotel';
 import FavoriteList from '../../components/favorite-list/favorite-list';
 import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/offers-process/selectors';
+import Logo from '../../components/logo/logo';
 
 function Favorites(): JSX.Element {
-  const hotels = useAppSelector((state) => state.offers);
+  const hotels = useAppSelector(getOffers);
 
   const favoriteHotels: Hotel[] = hotels.filter((hotel) => hotel.isFavorite);
 
