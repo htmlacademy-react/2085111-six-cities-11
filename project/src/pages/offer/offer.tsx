@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import Logo from '../../components/logo/logo';
 import CommentForm from '../../components/comment-form/comment-form';
 import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
@@ -16,6 +15,7 @@ import { AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
 import { getCurrentOffer, getNearbyOffers } from '../../store/offers-process/selectors';
 import { getComments } from '../../store/comments-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import Logo from '../../components/logo/logo';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
