@@ -4,9 +4,11 @@ import Logo from '../../components/logo/logo';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import {useAppSelector} from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
 import { getCurrentCity, getOffers } from '../../store/offers-process/selectors';
+import EmptyOffersList from '../../components/empty-offers-list/empty-offers-list';
+import cn from 'classnames';
 
 
 function Main(): JSX.Element {
@@ -36,20 +38,28 @@ function Main(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={cn('page__main page__main--index', {'page__main--index-empty': !filteredHotels.length})}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <CitiesList />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <OffersList hotels={filteredHotels} city={city} cardClickHandler={cardClickHandler} />
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                {filteredHotels.length > 0 && <Map hotels={filteredHotels} selectedOffer={selectedOffer} />}
-              </section>
-            </div>
-          </div>
+
+          {filteredHotels.length ?
+            (
+              <div className="cities__places-container container">
+                <OffersList hotels={filteredHotels} city={city} cardClickHandler={cardClickHandler} />
+                <div className="cities__right-section">
+                  <section className="cities__map map">
+                    {filteredHotels.length > 0 && <Map hotels={filteredHotels} selectedOffer={selectedOffer} />}
+                  </section>
+                </div>
+              </div>
+            ) :
+            (
+              <EmptyOffersList city={city} />
+            )}
+
         </div>
       </main>
     </div>
