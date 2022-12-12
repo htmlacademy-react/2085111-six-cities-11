@@ -8,21 +8,28 @@ import Offer from '../../pages/offer/offer';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getIsOffersDataLoading } from '../../store/offers-process/selectors';
+import { fetchFavoriteOffersAction } from '../../store/api-actions';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
 
+  const dispatch = useAppDispatch();
+
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
+  }
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    dispatch(fetchFavoriteOffersAction());
   }
 
   return (
