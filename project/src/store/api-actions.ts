@@ -23,6 +23,18 @@ export const fetchOffersAction = createAsyncThunk<Hotel[], undefined, {
   },
 );
 
+export const fetchFavoriteOffers = createAsyncThunk<Hotel[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/favoriteOffers',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<Hotel[]>(APIRoute.Favorite);
+    return data;
+  },
+);
+
 export const fetchCurrentOfferAction = createAsyncThunk<Hotel | null, number, {
   dispatch: AppDispatch;
   state: State;
@@ -62,13 +74,23 @@ export const fetchNearbyOffersAction = createAsyncThunk<Hotel[], number, {
   },
 );
 
+// export const fetchFavoriteOffers = createAsyncThunk<Hotel[], undefined, {
+//   state: State;
+//   extra: AxiosInstance;
+// }>(
+//   'data/favoriteOffers',
+//   async (_arg, { extra: api }) => {
+//     const { data } = await api.get<Hotel[]>(APIRoute.Favorite);
+//     return data;
+//   },
+// );
+
 export const postNewCommentAction = createAsyncThunk<Comment | null, NewComment, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/postNewComment',
-  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+  async ({ id, comment, rating }, { extra: api }) => {
     try {
       const { data } = await api.post<Comment[]>(`${APIRoute.Comments}/${String(id)}`, { comment, rating });
       const newComment = data.slice(-1)[0];

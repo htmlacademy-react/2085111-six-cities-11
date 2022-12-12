@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { OffersProcess } from '../../types/state';
 import { currentOffer, DEFAULT_CITY, NameSpace } from '../../utils/const';
-import { fetchCurrentOfferAction, fetchNearbyOffersAction, fetchOffersAction } from '../api-actions';
+import { fetchCurrentOfferAction, fetchFavoriteOffers, fetchNearbyOffersAction, fetchOffersAction } from '../api-actions';
 
 const initialState: OffersProcess = {
   city: DEFAULT_CITY,
@@ -9,6 +9,7 @@ const initialState: OffersProcess = {
   currentOffer: currentOffer,
   isOffersDataLoading: false,
   nearbyOffers: [],
+  favoriteOffers: [],
 };
 
 export const offersProcess = createSlice({
@@ -35,6 +36,9 @@ export const offersProcess = createSlice({
       })
       .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload;
+      })
+      .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
       });
   }
 });

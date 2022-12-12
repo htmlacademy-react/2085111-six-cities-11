@@ -14,6 +14,7 @@ export type OffersProcess = {
   currentOffer: Hotel;
   isOffersDataLoading: boolean;
   nearbyOffers: Hotel[];
+  favoriteOffers: Hotel[];
 }
 
 export type CommentsProcess = {
