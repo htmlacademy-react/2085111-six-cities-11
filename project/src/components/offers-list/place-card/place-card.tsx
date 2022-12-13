@@ -7,6 +7,7 @@ import { getAuthorizationStatus } from '../../../store/user-process/selectors';
 import { redirectToRoute } from '../../../store/action';
 import { setFavoriteStatusAction } from '../../../store/api-actions';
 import cn from 'classnames';
+import { changeFavoritesCounter } from '../../../store/offers-process/offers-process';
 
 const NON_EXISTENT_ID = -1;
 
@@ -30,7 +31,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
     cardClickHandler && cardClickHandler(NON_EXISTENT_ID);
   };
 
-  const hadnleFavoriteButtonClick = () => {
+  const favoriteButtonClickHandler = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
     }
@@ -39,6 +40,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
       id: id,
       status: !isFavorite,
     }));
+    dispatch(changeFavoritesCounter(!isFavorite));
   };
 
   return (
@@ -59,7 +61,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price} </b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={cn('place-card__bookmark-button button', {'place-card__bookmark-button--active': isFavorite})} type="button" onClick={hadnleFavoriteButtonClick}>
+          <button className={cn('place-card__bookmark-button button', {'place-card__bookmark-button--active': isFavorite})} type="button" onClick={favoriteButtonClickHandler}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

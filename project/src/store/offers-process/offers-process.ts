@@ -10,6 +10,7 @@ const initialState: OffersProcess = {
   isOffersDataLoading: false,
   nearbyOffers: [],
   favoriteOffers: [],
+  favoritesCounter: 0,
 };
 
 export const offersProcess = createSlice({
@@ -18,6 +19,10 @@ export const offersProcess = createSlice({
   reducers: {
     changeCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;
+    },
+    changeFavoritesCounter: (state, action: PayloadAction<boolean>) => {
+      const count = action.payload ? 1 : -1;
+      state.favoritesCounter += count;
     },
   },
   extraReducers(builder) {
@@ -39,6 +44,7 @@ export const offersProcess = createSlice({
       })
       .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
+        state.favoritesCounter = action.payload.length;
       })
       .addCase(setFavoriteStatusAction.fulfilled, (state, action) => {
         state.offers.forEach((offer) => {
@@ -50,4 +56,4 @@ export const offersProcess = createSlice({
   }
 });
 
-export const {changeCity} = offersProcess.actions;
+export const {changeCity, changeFavoritesCounter} = offersProcess.actions;

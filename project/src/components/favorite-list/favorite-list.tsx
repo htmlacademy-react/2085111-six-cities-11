@@ -3,9 +3,10 @@ import FavoriteItem from './favorite-item/favorite-item';
 
 type FavoriteListProps = {
   hotels: Hotel[];
+  favoriteButtonClickHandler: (id: number, isFavorite: boolean) => void;
 }
 
-function FavoriteList({hotels}: FavoriteListProps): JSX.Element {
+function FavoriteList({hotels, favoriteButtonClickHandler}: FavoriteListProps): JSX.Element {
   const cities = hotels.map((hotel) => hotel.city.name);
   const uniqCities = new Set(cities);
   const favoriteCities = Array.from(uniqCities);
@@ -15,7 +16,7 @@ function FavoriteList({hotels}: FavoriteListProps): JSX.Element {
     const hotelsOfOneCity = hotels.filter((hotel) => hotel.city.name === city);
 
     return (
-      <FavoriteItem hotelsOfOneCity={hotelsOfOneCity} key={city} />
+      <FavoriteItem hotelsOfOneCity={hotelsOfOneCity} favoriteButtonClickHandler={favoriteButtonClickHandler} key={city} />
     );
   };
 
