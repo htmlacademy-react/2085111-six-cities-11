@@ -8,7 +8,7 @@ import { сalculateRating, capitalizeFirstLetter } from '../../utils/index';
 import cn from 'classnames';
 import { useParams } from 'react-router-dom';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, setFavoriteStatusAction } from '../../store/api-actions';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
 import { AppRoute, AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
@@ -39,8 +39,6 @@ function Offer(): JSX.Element {
 
   const hotels = nearbyHotels.concat(currentHotel);
 
-  const [currentIsFavorite, setCurrentIsFavorite] = useState<boolean>(isFavorite);
-
   const favoriteButtonClickHandler = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Login));
@@ -48,10 +46,11 @@ function Offer(): JSX.Element {
 
     dispatch(setFavoriteStatusAction({
       id: currentOfferId,
-      status: !currentIsFavorite,
-    }));
-    dispatch(changeFavoritesCounter(!currentIsFavorite));
-    setCurrentIsFavorite(!currentIsFavorite);
+      status: !isFavorite,
+    })).then(() => {
+      dispatch(changeFavoritesCounter(!isFavorite));
+      dispatch(fetchCurrentOfferAction(currentOfferId));
+    });
   };
 
   return (
@@ -91,8 +90,8 @@ function Offer(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={cn('property__bookmark-button button', { 'property__bookmark-button--active': currentIsFavorite && authorizationStatus === AuthorizationStatus.Auth })} type="button" onClick={favoriteButtonClickHandler}>
-                  <svg className="property__bookmark-icon" width="31" height="33">
+                <button className={cn('property__bookmark-button button', { 'property__bookmark-button--active': isFavorite && authorizationStatus === AuthorizationStatus.Auth })} type="button" onClick={favoriteButtonClickHandler}>
+                  <svg className="property__bookmark-icon place-card__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
