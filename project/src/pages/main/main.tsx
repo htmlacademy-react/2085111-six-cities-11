@@ -1,17 +1,21 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logo from '../../components/logo/logo';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
 import { getCurrentCity, getOffers } from '../../store/offers-process/selectors';
 import EmptyOffersList from '../../components/empty-offers-list/empty-offers-list';
 import cn from 'classnames';
+import { changeCity } from '../../store/offers-process/offers-process';
+import { DEFAULT_CITY } from '../../utils/const';
 
 
 function Main(): JSX.Element {
+  const dispatch = useAppDispatch();
+
   const [selectedOffer, setSelectedOffer] = useState<number | undefined>(undefined);
 
   const hotels = useAppSelector(getOffers);
@@ -21,6 +25,10 @@ function Main(): JSX.Element {
   const cardClickHandler = (id: number) => {
     setSelectedOffer(id);
   };
+
+  useEffect(() => {
+    dispatch(changeCity(DEFAULT_CITY));
+  }, [dispatch]);
 
   return (
     <div className="page page--gray page--main">

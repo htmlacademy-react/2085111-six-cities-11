@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Logo from '../../components/logo/logo';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { redirectToRoute } from '../../store/action';
@@ -17,19 +18,27 @@ function Login(): JSX.Element {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Root));
     }
-  },[dispatch, authorizationStatus]);
+  }, [dispatch, authorizationStatus]);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const passwordMask = /([0-9].*[a-z])|([a-z].*[0-9])/;
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
+      const password = passwordRef.current.value.trim();
+
+      if (!password.length || !passwordMask.test(password)) {
+        toast.warn('Password must contain at least one number and one letter');
+        return;
+      }
+
       onSubmit({
         login: loginRef.current.value,
         password: passwordRef.current.value,
@@ -56,7 +65,7 @@ function Login(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
+            <form className="login__form form" action="#" method="post" onSubmit={submitHandler}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email" required />

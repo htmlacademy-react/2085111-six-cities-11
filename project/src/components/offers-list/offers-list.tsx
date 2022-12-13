@@ -21,7 +21,7 @@ function OffersList({hotels, city, cardClickHandler}: OffersListProps): JSX.Elem
 
   useEffect(() => {
     setSortedHotels(sortingOffers(Array.from(hotels), sortingName));
-  }, [sortingName, city]);
+  }, [sortingName, city, hotels]);
 
   return (
     <section className="cities__places places">

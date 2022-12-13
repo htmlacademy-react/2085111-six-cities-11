@@ -20,6 +20,7 @@ export type OffersProcess = {
 
 export type CommentsProcess = {
   currentComments: Comment[];
+  isPostingLoading: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

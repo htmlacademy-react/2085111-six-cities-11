@@ -1,6 +1,7 @@
 import { useState, MouseEvent, ChangeEvent, useRef } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postNewCommentAction } from '../../store/api-actions';
+import { getPostingStatus } from '../../store/comments-process/selectors';
 
 type CommentFormProps = {
   id: number;
@@ -10,12 +11,16 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement>(null);
 
+  const isPostingLoading = useAppSelector(getPostingStatus);
+
   const [formData, setFormData] = useState({
     rating: '',
     comment: '',
     isRatingOk: false,
     isCommentOk: false,
   });
+
+  const isButtonDisabled = !formData.isRatingOk || !formData.isCommentOk || isPostingLoading;
 
   const starClickHandle = (evt: MouseEvent<HTMLInputElement>) => {
     setFormData({
@@ -42,16 +47,18 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
       id,
       comment: formData.comment,
       rating: Number(formData.rating),
-    }));
+    })).then((response) => {
+      if (response.payload) {
+        formRef.current && formRef.current.reset();
 
-    setFormData({
-      rating: '',
-      comment: '',
-      isRatingOk: false,
-      isCommentOk: false,
+        setFormData({
+          rating: '',
+          comment: '',
+          isRatingOk: false,
+          isCommentOk: false,
+        });
+      }
     });
-
-    formRef.current && formRef.current.reset();
   };
 
   return (
@@ -98,7 +105,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!formData.isRatingOk || !formData.isCommentOk}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isButtonDisabled}>Submit</button>
       </div>
     </form>
   );
