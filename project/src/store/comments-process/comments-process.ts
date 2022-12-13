@@ -5,6 +5,7 @@ import { fetchCommentsAction, postNewCommentAction } from '../api-actions';
 
 const initialState: CommentsProcess = {
   currentComments: [],
+  isPostingLoading: false,
 };
 
 export const commentsProcess = createSlice({
@@ -16,10 +17,17 @@ export const commentsProcess = createSlice({
       .addCase(fetchCommentsAction.fulfilled, (state, action) => {
         state.currentComments = action.payload;
       })
+      .addCase(postNewCommentAction.pending, (state) => {
+        state.isPostingLoading = true;
+      })
       .addCase(postNewCommentAction.fulfilled, (state, action) => {
+        state.isPostingLoading = false;
         if (action.payload) {
           state.currentComments = state.currentComments.concat(action.payload);
         }
+      })
+      .addCase(postNewCommentAction.rejected, (state) => {
+        state.isPostingLoading = false;
       });
   }
 });
