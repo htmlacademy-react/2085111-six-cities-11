@@ -1,17 +1,39 @@
-import {Helmet} from 'react-helmet-async';
-import {Hotel} from '../../types/hotel';
+import { Helmet } from 'react-helmet-async';
 import FavoriteList from '../../components/favorite-list/favorite-list';
-import { useAppSelector } from '../../hooks';
-import { getOffers } from '../../store/offers-process/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getFavoriteOffers } from '../../store/offers-process/selectors';
 import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
+import FavoriteEmptyList from '../../components/favorite-list/favorite-empty-list/favorite-empty-list';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../utils/const';
+import cn from 'classnames';
+import { useEffect, useState } from 'react';
+import { setFavoriteStatusAction } from '../../store/api-actions';
+import { Hotel } from '../../types/hotel';
+import { changeFavoritesCounter } from '../../store/offers-process/offers-process';
 
 function Favorites(): JSX.Element {
-  const hotels = useAppSelector(getOffers);
+  const dispatch = useAppDispatch();
+  const hotels = useAppSelector(getFavoriteOffers);
 
-  const favoriteHotels: Hotel[] = hotels.filter((hotel) => hotel.isFavorite);
+  const [favoriteOffers, setFavoriteOffers] = useState<Hotel[]>(hotels);
+
+  useEffect(() => {
+    setFavoriteOffers(hotels);
+  },[hotels]);
+
+  const favoriteButtonClickHandler = (id: number, isFavorite: boolean) => {
+    dispatch(setFavoriteStatusAction({
+      id: id,
+      status: !isFavorite,
+    }));
+    dispatch(changeFavoritesCounter(!isFavorite));
+    setFavoriteOffers(favoriteOffers.filter((hotel) => hotel.id !== id));
+  };
 
   return (
-    <div className="page">
+    <div className={cn('page', {'page--favorites-empty': !hotels.length})}>
       <Helmet>
         <title>Favorite Hotels | 6 cities</title>
       </Helmet>
@@ -21,39 +43,30 @@ function Favorites(): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Header />
           </div>
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoriteList hotels={favoriteHotels} />
-          </section>
-        </div>
-      </main>
+      {favoriteOffers.length ?
+        (
+          <main className="page__main page__main--favorites">
+            <div className="page__favorites-container container">
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
+                <FavoriteList hotels={favoriteOffers} favoriteButtonClickHandler={favoriteButtonClickHandler} />
+              </section>
+            </div>
+          </main>
+        ) :
+        (
+          <FavoriteEmptyList />
+        )}
+
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link className="footer__logo-link" to={AppRoute.Root}>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        </Link>
       </footer>
     </div>
   );

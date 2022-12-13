@@ -1,12 +1,26 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { logoutAction } from '../../../store/api-actions';
+import { fetchFavoriteOffersAction, logoutAction } from '../../../store/api-actions';
+import { getFavoriteOffers, getFavoritesCounter } from '../../../store/offers-process/selectors';
 import { getEmail } from '../../../store/user-process/selectors';
 import { AppRoute } from '../../../utils/const';
 
 function HeaderAuth(): JSX.Element {
   const dispatch = useAppDispatch();
   const email = useAppSelector(getEmail);
+  const favoriteCounter = useAppSelector(getFavoritesCounter);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
+
+  const [counterValue, setCounterValue] = useState(favoriteOffers.length);
+
+  useEffect(() => {
+    setCounterValue(favoriteCounter);
+  }, [favoriteCounter, favoriteOffers.length]);
+
+  useEffect(() => {
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch]);
 
   return (
     <ul className='header__nav-list'>
@@ -15,7 +29,7 @@ function HeaderAuth(): JSX.Element {
           <div className='header__avatar-wrapper user__avatar-wrapper'>
           </div>
           <span className='header__user-name user__name'>{email}</span>
-          <span className='header__favorite-count'>3</span>
+          <span className='header__favorite-count'>{counterValue}</span>
         </Link>
       </li>
       <li className='header__nav-item'>

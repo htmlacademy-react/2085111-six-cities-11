@@ -6,6 +6,7 @@ import { AuthData } from '../types/auth-data';
 import { Comment } from '../types/comment';
 import { Hotel } from '../types/hotel';
 import { NewComment } from '../types/new-comment';
+import { NewFavoriteOffer } from '../types/new-favorite-offer';
 import { AppDispatch, State } from '../types/state';
 import { UserData } from '../types/user-data';
 import { APIRoute, AppRoute } from '../utils/const';
@@ -19,6 +20,18 @@ export const fetchOffersAction = createAsyncThunk<Hotel[], undefined, {
   'data/fetchOffers',
   async (_arg, { extra: api }) => {
     const { data } = await api.get<Hotel[]>(APIRoute.Offers);
+    return data;
+  },
+);
+
+export const fetchFavoriteOffersAction = createAsyncThunk<Hotel[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/favoriteOffers',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<Hotel[]>(APIRoute.Favorite);
     return data;
   },
 );
@@ -62,13 +75,27 @@ export const fetchNearbyOffersAction = createAsyncThunk<Hotel[], number, {
   },
 );
 
+export const setFavoriteStatusAction = createAsyncThunk<number | void, NewFavoriteOffer, {
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/setFavoriteStatus',
+  async ({ id, status }, { extra: api }) => {
+    try {
+      const { data } = await api.post<Hotel>(`${APIRoute.Favorite}/${String(id)}/${Number(status)}`);
+      return data.id;
+    } catch {
+      toast.error('Error: cannot add offer to favorites');
+    }
+  },
+);
+
 export const postNewCommentAction = createAsyncThunk<Comment | null, NewComment, {
-  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/postNewComment',
-  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+  async ({ id, comment, rating }, { extra: api }) => {
     try {
       const { data } = await api.post<Comment[]>(`${APIRoute.Comments}/${String(id)}`, { comment, rating });
       const newComment = data.slice(-1)[0];

@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Hotel } from '../../../types/hotel';
 import { capitalizeFirstLetter, сalculateRating } from '../../../utils/index';
-import { AppRoute } from '../../../utils/const';
+import { AppRoute, AuthorizationStatus } from '../../../utils/const';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { getAuthorizationStatus } from '../../../store/user-process/selectors';
+import { redirectToRoute } from '../../../store/action';
+import { setFavoriteStatusAction } from '../../../store/api-actions';
+import cn from 'classnames';
+import { changeFavoritesCounter } from '../../../store/offers-process/offers-process';
 
 const NON_EXISTENT_ID = -1;
 
@@ -11,9 +17,11 @@ type PlaceCardProps = {
 }
 
 function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
-  const { price, type, title, isPremium, isFavorite, rating, id, images } = hotel;
-  const bookmarkButtonClasses = `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`;
+  const { price, type, title, isPremium, isFavorite, rating, id, previewImage } = hotel;
   const capitalizedType = capitalizeFirstLetter(type);
+
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
 
   const onMouseEnter = () => {
     cardClickHandler && cardClickHandler(id);
@@ -21,6 +29,18 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
 
   const onMouseLeave = () => {
     cardClickHandler && cardClickHandler(NON_EXISTENT_ID);
+  };
+
+  const favoriteButtonClickHandler = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+
+    dispatch(setFavoriteStatusAction({
+      id: id,
+      status: !isFavorite,
+    }));
+    dispatch(changeFavoritesCounter(!isFavorite));
   };
 
   return (
@@ -32,7 +52,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#0">
-          <img className="place-card__image" src={images[0]} width="260" height="200" alt="Place" />
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
         </a>
       </div>
       <div className="place-card__info">
@@ -41,7 +61,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price} </b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={bookmarkButtonClasses} type="button">
+          <button className={cn('place-card__bookmark-button button', {'place-card__bookmark-button--active': isFavorite})} type="button" onClick={favoriteButtonClickHandler}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

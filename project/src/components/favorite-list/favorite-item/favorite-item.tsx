@@ -3,9 +3,10 @@ import FavoriteCard from '../favorite-card/favorite-card';
 
 type FavoriteItemProps = {
   hotelsOfOneCity: Hotel[];
+  favoriteButtonClickHandler: (id: number, isFavorite: boolean) => void;
 };
 
-function FavoriteItem({hotelsOfOneCity}: FavoriteItemProps): JSX.Element {
+function FavoriteItem({hotelsOfOneCity, favoriteButtonClickHandler}: FavoriteItemProps): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -16,7 +17,7 @@ function FavoriteItem({hotelsOfOneCity}: FavoriteItemProps): JSX.Element {
         </div>
       </div>
       <div className="favorites__places">
-        {hotelsOfOneCity.map((hotel: Hotel) => <FavoriteCard hotel={hotel} key={hotel.id} />)}
+        {hotelsOfOneCity.map((hotel: Hotel) => <FavoriteCard hotel={hotel} favoriteButtonClickHandler={favoriteButtonClickHandler} key={hotel.id} />)}
       </div>
     </li>
   );

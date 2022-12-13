@@ -7,15 +7,17 @@ import { Hotel } from '../../types/hotel';
 import { сalculateRating, capitalizeFirstLetter } from '../../utils/index';
 import cn from 'classnames';
 import { useParams } from 'react-router-dom';
-import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, setFavoriteStatusAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
-import { AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
+import { AppRoute, AuthorizationStatus, MAX_AMOUNT_OF_PHOTOS } from '../../utils/const';
 import { getCurrentOffer, getNearbyOffers } from '../../store/offers-process/selectors';
 import { getComments } from '../../store/comments-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import Logo from '../../components/logo/logo';
+import { redirectToRoute } from '../../store/action';
+import { changeFavoritesCounter } from '../../store/offers-process/offers-process';
 
 function Offer(): JSX.Element {
   const { id } = useParams();
@@ -34,6 +36,22 @@ function Offer(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const { isPremium, title, isFavorite, rating, bedrooms, maxAdults, type, price, goods, description, host, images } = currentHotel;
+
+  const hotels = nearbyHotels.concat(currentHotel);
+
+  const favoriteButtonClickHandler = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Login));
+    }
+
+    dispatch(setFavoriteStatusAction({
+      id: currentOfferId,
+      status: !isFavorite,
+    })).then(() => {
+      dispatch(changeFavoritesCounter(!isFavorite));
+      dispatch(fetchCurrentOfferAction(currentOfferId));
+    });
+  };
 
   return (
     <div className="page">
@@ -72,8 +90,8 @@ function Offer(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={cn('property__bookmark-button', 'button', { 'property__bookmark-button--active': isFavorite })} type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
+                <button className={cn('property__bookmark-button button', { 'property__bookmark-button--active': isFavorite && authorizationStatus === AuthorizationStatus.Auth })} type="button" onClick={favoriteButtonClickHandler}>
+                  <svg className="property__bookmark-icon place-card__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
@@ -139,7 +157,7 @@ function Offer(): JSX.Element {
             </div>
           </div>
           <section className="property__map map">
-            {nearbyHotels.length && <Map hotels={nearbyHotels} />}
+            {nearbyHotels.length && <Map hotels={hotels} selectedOffer={currentOfferId} />}
           </section>
         </section>
         <div className="container">
