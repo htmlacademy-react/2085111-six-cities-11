@@ -4,7 +4,7 @@ import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
 import PlaceCard from '../../components/offers-list/place-card/place-card';
 import { Hotel } from '../../types/hotel';
-import { сalculateRating, capitalizeFirstLetter } from '../../utils/index';
+import { calculateRating, capitalizeFirstLetter } from '../../utils/index';
 import cn from 'classnames';
 import { useParams } from 'react-router-dom';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, setFavoriteStatusAction } from '../../store/api-actions';
@@ -99,7 +99,7 @@ function Offer(): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: `${сalculateRating(rating)}%` }}></span>
+                  <span style={{ width: `${calculateRating(rating)}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>

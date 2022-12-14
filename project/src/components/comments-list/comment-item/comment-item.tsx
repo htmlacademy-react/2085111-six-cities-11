@@ -1,5 +1,5 @@
 import {Comment} from '../../../types/comment';
-import {сalculateRating} from '../../../utils/index';
+import {calculateRating} from '../../../utils/index';
 
 type CommentItemProps = {
   commentItem: Comment;
@@ -27,7 +27,7 @@ function CommentItem({commentItem}: CommentItemProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: `${сalculateRating(rating)}%` }}></span>
+            <span style={{ width: `${calculateRating(rating)}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
