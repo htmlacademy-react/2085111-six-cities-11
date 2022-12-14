@@ -9,7 +9,7 @@ const capitalizeFirstLetter = (str: string): string => {
   return str;
 };
 
-const сalculateRating = (rating: number): number => (Math.round(rating) / MAX_RATING) * 100;
+const calculateRating = (rating: number): number => (Math.round(rating) / MAX_RATING) * 100;
 
 const sortingOffers = (hotels: Hotel[], sortName: string) => {
   if (hotels.length > 1) {
@@ -27,4 +27,4 @@ const sortingOffers = (hotels: Hotel[], sortName: string) => {
   return hotels;
 };
 
-export { capitalizeFirstLetter, сalculateRating, sortingOffers };
+export { capitalizeFirstLetter, calculateRating, sortingOffers };

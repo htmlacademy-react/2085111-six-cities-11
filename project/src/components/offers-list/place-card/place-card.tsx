@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Hotel } from '../../../types/hotel';
-import { capitalizeFirstLetter, сalculateRating } from '../../../utils/index';
+import { capitalizeFirstLetter, calculateRating } from '../../../utils/index';
 import { AppRoute, AuthorizationStatus } from '../../../utils/const';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getAuthorizationStatus } from '../../../store/user-process/selectors';
@@ -70,7 +70,7 @@ function PlaceCard({ hotel, cardClickHandler }: PlaceCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${сalculateRating(rating)}%` }}></span>
+            <span style={{ width: `${calculateRating(rating)}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
