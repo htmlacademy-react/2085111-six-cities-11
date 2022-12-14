@@ -2,6 +2,7 @@ import { useState, MouseEvent, ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postNewCommentAction } from '../../store/api-actions';
 import { getPostingStatus } from '../../store/comments-process/selectors';
+import { MIN_COMMENT_LENGTH } from '../../utils/const';
 
 type CommentFormProps = {
   id: number;
@@ -32,7 +33,7 @@ function CommentForm({ id }: CommentFormProps): JSX.Element {
 
   const commentChangeHandle = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const currentComment = evt.currentTarget.value;
-    const isCommentLengthOk = currentComment.length >= 50;
+    const isCommentLengthOk = currentComment.length >= MIN_COMMENT_LENGTH;
     setFormData((prev) => ({
       ...prev,
       comment: currentComment,

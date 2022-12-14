@@ -10,6 +10,8 @@ export const MAX_AMOUNT_OF_COMMENTS = 10;
 
 export const MAX_AMOUNT_OF_PHOTOS = 6;
 
+export const MIN_COMMENT_LENGTH = 50;
+
 export enum AppRoute {
   Root = '/',
   Login = '/login',
